@@ -5,10 +5,10 @@ from telethon.tl.types import PeerChannel
 from telethon.errors import SessionPasswordNeededError
 
 # (1) Use your own values here
-api_id = 0
-api_hash = ''
+api_id = 295323
+api_hash = '2ff62d38429428e0f8cc5dbb243fe423'
 
-phone = ''
+phone = '+2348159932148'
 username = 'ibeanusi'
 
 
