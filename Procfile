@@ -1,0 +1,1 @@
+web: gunicorn telegrammonitor.wsgi --log-file -
