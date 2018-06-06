@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'telegrammonitor.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'telegrammonitor',
-        'USER': 'nnamdi',
-        'PASSWORD': 'nnamdi98',
+        'NAME': 'telegrammonitor', # dev database name
+        'USER': '',
+        'PASSWORD': '',
     }
 }
 
