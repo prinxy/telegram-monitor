@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         unsent_messages = PinnedMessage.objects.filter(
-            sent=False).select_relate('channel')
+            sent=False).select_related('channel')
         if unsent_messages.exist():
             mail = ''
             for msg in unsent_messages:
