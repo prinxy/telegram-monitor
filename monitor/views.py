@@ -6,9 +6,21 @@ from .monitor import get_pinned_message
 
 
 def index(request):
+    context = make_context()
+    return JsonResponse(context)
+
+
+def make_context():
+    context = {}
+    pinned = find_pinned_messages()
+    for p in pinned:
+        context[p.channel.name] = p.text
+    return context
+
+
+def find_pinned_messages():
     config = Configuration.objects.get()
     target_channels = TargetChannel.objects.all()
-    print(target_channels)
 
     for channel in target_channels:
         pinned_message = get_pinned_message(
@@ -33,8 +45,5 @@ def index(request):
                 )
                 pinned_obj.save()
 
-    pms = PinnedMessage.objects.all()
-    context = {}
-    for p in pms:
-        context[p.channel.name] = p.text
-    return JsonResponse(context)
+    pinned_messages = PinnedMessage.objects.all()
+    return pinned_messages
