@@ -13,11 +13,17 @@ class Command(BaseCommand):
             sent=False).select_related('channel')
         if unsent_messages.exists():
             mail = ''
+            count = 1
             for msg in unsent_messages:
-                mail += ' From Channel: {}\n Pinned Message: {}\n\n'.format(
-                    msg.channel.name, msg.text)
+                mail += '{}. FROM CHANNEL: {}\n Pinned Message: {}\n\n'.format(
+                    count,
+                    msg.channel.name,
+                    msg.text
+                )
+                count += 1
             recipients = [
-                r.email for r in Recipient.objects.filter(active=True)]
+                r.email for r in Recipient.objects.filter(active=True)
+            ]
             try:
                 send_mail(
                     'New Pinned Messages.',
