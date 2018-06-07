@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Configuration, PinnedMessage, TargetChannel
+from .models import Configuration, PinnedMessage, TargetChannel, Recipient
 
 admin.site.register(Configuration)
 
@@ -13,3 +13,8 @@ class PinnedMessageAdmin(admin.ModelAdmin):
 @admin.register(TargetChannel)
 class TargetChannelAdmin(admin.ModelAdmin):
     list_display = ['name', 'channel_id']
+
+
+@admin.register(Recipient)
+class RecipientAdmin(admin.ModelAdmin):
+    list_display = ['email', 'active']
