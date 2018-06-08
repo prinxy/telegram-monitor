@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 send_mail(
                     'New Pinned Messages: {}'.format(datetime.now()),
                     mail,
-                    'pydevtester@gmail.com',
+                    'ringtelegram@gmail.com',
                     recipients,
                     fail_silently=False
                 )
