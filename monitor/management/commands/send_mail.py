@@ -30,7 +30,7 @@ class Command(BaseCommand):
                     mail,
                     'pydevtester@gmail.com',
                     recipients,
-                    fail_silently=True
+                    fail_silently=False
                 )
                 unsent_messages.update(sent=True)
             except:
