@@ -8,7 +8,7 @@ class Command(BaseCommand):
     help = 'Extracts pinned messages from all channels and saves any new ones.'
 
     def handle(self, *args, **options):
-        config = Configuration.objects.get()
+        config = Configuration.objects.filter(active=True).first()
         target_channels = TargetChannel.objects.all()
 
         for channel in target_channels:
