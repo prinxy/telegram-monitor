@@ -6,6 +6,5 @@ from . import views
 app_name = 'monitor'
 urlpatterns = [
     path('', views.index, name='index'),
-    # path('prod/csv/', views.generate_csv, name='generate_csv'),
-    # path('prod/')
+    path('refresh/', views.refresh, name='refresh')
 ]
