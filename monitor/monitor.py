@@ -4,15 +4,8 @@ from telethon.tl.functions.messages import GetHistoryRequest
 from telethon.tl.types import PeerChannel
 from telethon.errors import SessionPasswordNeededError
 
-# (1) Use your own values here
-api_id = 295323
-api_hash = '2ff62d38429428e0f8cc5dbb243fe423'
 
-phone = '+2348159932148'
-username = 'ibeanusi'
-
-
-def get_pinned_message(username, api_id, api_hash, name):
+def get_pinned_message(username, api_id, api_hash, phone, name):
     # (2) Create the client and connect
     client = TelegramClient(
         username,

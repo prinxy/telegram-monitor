@@ -16,6 +16,7 @@ class Command(BaseCommand):
                 config.username,
                 config.api_id,
                 config.api_hash,
+                config.phone,
                 channel.name
             )
             if pinned_message:

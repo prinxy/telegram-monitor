@@ -19,7 +19,7 @@ def make_context():
 
 
 def find_pinned_messages():
-    config = Configuration.objects.get()
+    config = Configuration.objects.filter(active=True).first()
     target_channels = TargetChannel.objects.all()
 
     for channel in target_channels:

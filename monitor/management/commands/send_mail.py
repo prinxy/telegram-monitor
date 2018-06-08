@@ -26,7 +26,7 @@ class Command(BaseCommand):
             ]
             try:
                 send_mail(
-                    'New Pinned Messages.',
+                    'New Pinned Messages: {}'.format(datetime.now()),
                     mail,
                     'pydevtester@gmail.com',
                     recipients,
