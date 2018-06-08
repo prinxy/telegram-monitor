@@ -1,4 +1,4 @@
-
+{% extends 'monitor/base.html' %}
 
 {% block maincontent %}
     <div class="col-md-6">
@@ -12,10 +12,10 @@
             <tbody>
                 {% for message in pinned_messages %}
                     <tr>
-                        <td>message.message_id</td>
-                        <td>message.date_created</td>
-                        <td>message.channel.name</td>
-                        <td>message.text</td>
+                        <td>{{ message.message_id }}</td>
+                        <td>{{ message.date_created }}</td>
+                        <td>{{ message.channel.name }}</td>
+                        <td>{{ message.text }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
