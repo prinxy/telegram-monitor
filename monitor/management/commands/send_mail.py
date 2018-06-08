@@ -33,5 +33,6 @@ class Command(BaseCommand):
                     fail_silently=False
                 )
                 unsent_messages.update(sent=True)
-            except:
+            except Exception as e:
                 print('Error')
+                print(e)
