@@ -38,12 +38,14 @@
                 <li><a href="{% url 'monitor:summary' %}">24 Hour Summary</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-
+                <a href="{% url 'monitor:refresh' %}">
+                    <button class="btn btn-primary">Refresh Pinned Messages</button>
+                </a>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
     </nav>
-    
+
     {% block maincontent %}
 
     {% endblock %}

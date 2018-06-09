@@ -41,6 +41,7 @@ def refresh(request):
             config.username,
             config.api_id,
             config.api_hash,
+            config.phone,
             channel.name
         )
         if pinned_message:
@@ -58,6 +59,4 @@ def refresh(request):
                     text=text
                 )
                 pinned_obj.save()
-
-    pinned_messages = PinnedMessage.objects.all()
     return redirect('monitor:index')
