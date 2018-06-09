@@ -17,7 +17,7 @@
                         <td>{{ message.message_id }}</td>
                         <td>{{ message.date_created }}</td>
                         <td>{{ message.channel.name }}</td>
-                        <td>{{ message.text }}</td>
+                        <td>{{ message.text|linebreaks }}</td>
                         <td>{% if message.sent %}<b>Yes</b>{% else %}<b>No</b>{% endif %}</td>
                     </tr>
                 {% endfor %}
