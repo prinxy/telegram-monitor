@@ -13,6 +13,17 @@ def index(request, template='monitor/index.html'):
     return render(request, template, context)
 
 
+def summary(request, template='monitor/summary.html'):
+    channels = TargetChannel.objects.all()
+    pinned_messages = PinnedMessage.objects.all()
+    new_pinned = [msg for msg in pinned_messages if msg.age() < 1]
+    context = {
+        'new_pinned_messages': new_pinned,
+        'channels': channels
+    }
+    return render(request, template, context)
+
+
 # def make_context():
 #     context = {}
 #     pinned = find_pinned_messages()

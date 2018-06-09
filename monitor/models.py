@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.utils import timezone
 
@@ -35,6 +36,13 @@ class PinnedMessage(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.channel.name, self.text)
+
+    def age(self):
+        created = self.date_created.replace(tzinfo=None)
+        now = datetime.now()
+        delta = now - created
+        days = delta.days
+        return days
 
 
 class Recipient(models.Model):

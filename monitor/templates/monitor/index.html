@@ -1,24 +1,26 @@
 {% extends 'monitor/base.html' %}
 
 {% block maincontent %}
-    <div class="col-md-6">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <th>Message ID</th>
-                <th>Date Created</th>
-                <th>Channel</th>
-                <th>Message</th>
-            </thead>
-            <tbody>
-                {% for message in pinned_messages %}
-                    <tr>
-                        <td>{{ message.message_id }}</td>
-                        <td>{{ message.date_created }}</td>
-                        <td>{{ message.channel.name }}</td>
-                        <td>{{ message.text }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <th>Message ID</th>
+                    <th>Date Created</th>
+                    <th>Channel</th>
+                    <th>Message</th>
+                </thead>
+                <tbody>
+                    {% for message in pinned_messages %}
+                        <tr>
+                            <td>{{ message.message_id }}</td>
+                            <td>{{ message.date_created }}</td>
+                            <td>{{ message.channel.name }}</td>
+                            <td>{{ message.text }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div> 
     </div>
 {% endblock %}
