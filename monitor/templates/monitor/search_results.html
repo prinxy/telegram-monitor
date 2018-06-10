@@ -1,0 +1,32 @@
+{% extends 'monitor/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block maincontent %}
+    <div class="col-md-4">
+        {% crispy form %}
+    </div>
+    {% if pinned_messages %}
+        <div class="col-md-8">
+            <div class="row">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <th>Message ID</th>
+                        <th>Date Created</th>
+                        <th>Channel</th>
+                        <th>Message</th>
+                    </thead>
+                    <tbody>
+                        {% for message in pinned_messages %}
+                            <tr>
+                                <td>{{ message.message_id }}</td>
+                                <td>{{ message.date_created }}</td>
+                                <td>{{ message.channel.name }}</td>
+                                <td>{{ message.text|linebreaks }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>            
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
