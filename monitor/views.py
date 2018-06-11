@@ -1,12 +1,13 @@
 import datetime
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 from .models import Configuration, PinnedMessage, TargetChannel
 from .forms import DateRangeForm
 from .monitor import get_pinned_message
 
 
+@login_required(redirect_field_name='next', login_url='monitor:login')
 def index(request, template='monitor/index.html'):
     pinned_messages = PinnedMessage.objects.all()
     context = {
@@ -15,6 +16,7 @@ def index(request, template='monitor/index.html'):
     return render(request, template, context)
 
 
+@login_required(redirect_field_name='next', login_url='monitor:login')
 def summary(request, template='monitor/summary.html'):
     channels = TargetChannel.objects.all()
     pinned_messages = PinnedMessage.objects.all()
@@ -26,6 +28,7 @@ def summary(request, template='monitor/summary.html'):
     return render(request, template, context)
 
 
+@login_required(redirect_field_name='next', login_url='monitor:login')
 def search_dates(request, template='monitor/search_results.html'):
     form = DateRangeForm(request.GET or None)
     if form.is_valid():
@@ -51,6 +54,7 @@ def search_dates(request, template='monitor/search_results.html'):
 #     return context
 
 
+@login_required(redirect_field_name='next', login_url='monitor:login')
 def refresh(request):
     config = Configuration.objects.filter(active=True).first()
     target_channels = TargetChannel.objects.all()
