@@ -24,7 +24,7 @@ def index(request, template='monitor/index.html'):
     )
     client.connect()
     if not client.is_authorized():
-        client.send_code_request(phone)
+        client.send_code_request(config.phone)
         redirect('monitor:code')
 
     pinned_messages = PinnedMessage.objects.all().order_by('-date_created')
