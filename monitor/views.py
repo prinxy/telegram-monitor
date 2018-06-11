@@ -34,11 +34,16 @@ def search_dates(request, template='monitor/search_results.html'):
     if form.is_valid():
         start = form.cleaned_data['start_date']
         end = form.cleaned_data['end_date']
+        channel = form.cleaned_data['channel']
         # start = start - datetime.timedelta(days=1)
         end = end + datetime.timedelta(days=1)
         pinned_messages = PinnedMessage.objects.select_related(
             'channel'
         ).filter(date_created__range=(start, end)).order_by('channel')
+        if channel:
+            pinned_messages = pinned_messages.filter(
+                channel__name__icontains=channel
+            )
         context = {
             'form': form,
             'pinned_messages': pinned_messages

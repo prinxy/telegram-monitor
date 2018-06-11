@@ -12,6 +12,10 @@ class DateRangeForm(forms.Form):
         label='End Date',
         widget=forms.SelectDateWidget
     )
+    channel = forms.CharField(
+        label='Channel Name',
+        required=False
+    )
 
     def __init__(self, *args, **kwargs):
         super(DateRangeForm, self).__init__(*args, **kwargs)
