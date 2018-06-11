@@ -26,7 +26,12 @@ def get_pinned_message(username, api_id, api_hash, phone, name):
 
     me = client.get_me()
 
-    cid = client.get_entity(name).id  # Replace with Channel.username
+    try:
+        cid = client.get_entity(name).id  # Replace with Channel.username
+    except:
+        print('Problem with {}'.format(name))
+        return
+    
     # cid = '1297947823'
     channel_entity = client.get_entity(PeerChannel(cid))
     channel_info = client(GetFullChannelRequest(channel_entity))
