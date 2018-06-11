@@ -9,7 +9,7 @@ from .monitor import get_pinned_message
 
 @login_required(redirect_field_name='next', login_url='monitor:login')
 def index(request, template='monitor/index.html'):
-    pinned_messages = PinnedMessage.objects.all()
+    pinned_messages = PinnedMessage.objects.all().order_by('-date_created')
     context = {
         'pinned_messages': pinned_messages
     }
@@ -19,7 +19,7 @@ def index(request, template='monitor/index.html'):
 @login_required(redirect_field_name='next', login_url='monitor:login')
 def summary(request, template='monitor/summary.html'):
     channels = TargetChannel.objects.all()
-    pinned_messages = PinnedMessage.objects.all()
+    pinned_messages = PinnedMessage.objects.all().order_by('-date_created')
     new_pinned = [msg for msg in pinned_messages if msg.age() < 1]
     context = {
         'new_pinned_messages': new_pinned,
