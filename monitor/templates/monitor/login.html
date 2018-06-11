@@ -3,10 +3,16 @@
 {% block title %}Login{% endblock %}
 
 {% block maincontent %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
+    {% if login_code_form %}
+        <div class="col-md-4">
+            {% crispy form %}
+        </div>
+    {% else %}
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
 {% endblock %}

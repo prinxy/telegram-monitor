@@ -1,14 +1,32 @@
 import datetime
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
+from telethon import TelegramClient
 from .models import Configuration, PinnedMessage, TargetChannel
-from .forms import DateRangeForm
+from .forms import DateRangeForm, TelegramLoginCodeForm
 from .monitor import get_pinned_message
 
 
 @login_required(redirect_field_name='next', login_url='monitor:login')
 def index(request, template='monitor/index.html'):
+    # Before we display the index page, try and see if the Telegram client
+    # Has Auth Access.
+    config = Configuration.objects.filter(active=True).first()
+    if not config:
+        return Http404('No API credentials active')
+    client = TelegramClient(
+        config.username,
+        config.api_id,
+        config.api_hash,
+        update_workers=1,
+        spawn_read_thread=False
+    )
+    client.connect()
+    if not client.is_authorized():
+        client.send_code_request(phone)
+        redirect('monitor:code')
+
     pinned_messages = PinnedMessage.objects.all().order_by('-date_created')
     context = {
         'pinned_messages': pinned_messages
@@ -82,3 +100,31 @@ def refresh(request):
                 )
                 pinned_obj.save()
     return redirect('monitor:index')
+
+
+def code(request, template='monitor/login.html'):
+    config = Configuration.objects.filter(active=True).first()
+    if not config:
+        return Http404('No API credentials active')
+    client = TelegramClient(
+        config.username,
+        config.api_id,
+        config.api_hash,
+        update_workers=1,
+        spawn_read_thread=False
+    )
+    client.connect()
+    form = TelegramLoginCodeForm(request.POST or None)
+    if form.is_valid():
+        code = request.POST.get('login_code')
+        try:
+            client.sign_in(config.phone, code)
+            config.login_code = code
+            config.save()
+            redirect('monitor:summary')
+        except:
+            pass
+    context = {
+        'login_code_form': form
+    }
+    return render(request, context, template)
