@@ -51,12 +51,6 @@ def search_dates(request, template='monitor/search_results.html'):
         return render(request, template, context)
 
     return render(request, template, {'form': form})
-# def make_context():
-#     context = {}
-#     pinned = find_pinned_messages()
-#     for p in pinned:
-#         context[p.channel.name] = p.text
-#     return context
 
 
 @login_required(redirect_field_name='next', login_url='monitor:login')
