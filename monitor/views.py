@@ -24,7 +24,7 @@ def index(request, template='monitor/index.html'):
         spawn_read_thread=False
     )
     client.connect()
-    if not client.is_authorized():
+    if not client.is_user_authorized():
         client.send_code_request(config.phone)
         redirect('monitor:code')
 
