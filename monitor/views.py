@@ -103,6 +103,7 @@ def refresh(request):
     return redirect('monitor:index')
 
 
+@login_required(redirect_field_name='next', login_url='monitor:login')
 def code(request, template='monitor/login.html', client=None):
     config = Configuration.objects.filter(active=True).first()
     if not config:
