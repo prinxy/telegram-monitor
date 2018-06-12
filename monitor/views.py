@@ -1,4 +1,5 @@
 import datetime
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, Http404
 from django.contrib.auth.decorators import login_required
@@ -19,7 +20,7 @@ def index(request, template='monitor/index.html'):
         config.username,
         config.api_id,
         config.api_hash,
-        update_workers=1,
+        update_workers=0,
         spawn_read_thread=False
     )
     client.connect()
@@ -110,20 +111,21 @@ def code(request, template='monitor/login.html'):
         config.username,
         config.api_id,
         config.api_hash,
-        update_workers=1,
+        update_workers=0,
         spawn_read_thread=False
     )
     client.connect()
     form = TelegramLoginCodeForm(request.POST or None)
-    if form.is_valid():
-        code = request.POST.get('login_code')
+    code = request.POST.get('login_code', None)
+    if code:
         try:
             client.sign_in(config.phone, code)
-            config.login_code = code
-            config.save()
-            redirect('monitor:summary')
         except:
-            pass
+            form.add_error('login_code', 'Invalid Code')
+    if form.is_valid():
+        config.login_code = code
+        config.save()
+        redirect('monitor:summary')
     context = {
         'login_code_form': form
     }
