@@ -11,7 +11,7 @@ def get_pinned_message(username, api_id, api_hash, phone, name):
         username,
         api_id,
         api_hash,
-        update_workers=1,
+        update_workers=0,
         spawn_read_thread=False
     )
     client.connect()
@@ -31,7 +31,7 @@ def get_pinned_message(username, api_id, api_hash, phone, name):
     except:
         print('Problem with {}'.format(name))
         return
-    
+
     # cid = '1297947823'
     channel_entity = client.get_entity(PeerChannel(cid))
     channel_info = client(GetFullChannelRequest(channel_entity))
