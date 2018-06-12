@@ -1,4 +1,5 @@
 import datetime
+import pickle
 from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, Http404
@@ -25,8 +26,7 @@ def index(request, template='monitor/index.html'):
     )
     client.connect()
     if not client.is_user_authorized():
-        client.send_code_request(config.phone)
-        redirect('monitor:code')
+        return redirect('monitor:code')
 
     pinned_messages = PinnedMessage.objects.all().order_by('-date_created')
     context = {
@@ -103,7 +103,7 @@ def refresh(request):
     return redirect('monitor:index')
 
 
-def code(request, template='monitor/login.html'):
+def code(request, template='monitor/login.html', client=None):
     config = Configuration.objects.filter(active=True).first()
     if not config:
         return Http404('No API credentials active')
@@ -115,18 +115,26 @@ def code(request, template='monitor/login.html'):
         spawn_read_thread=False
     )
     client.connect()
+    if client.is_user_authorized():
+        return redirect('monitor:index')
     form = TelegramLoginCodeForm(request.POST or None)
     code = request.POST.get('login_code', None)
+    phone_hash = request.POST.get('phone_hash', None)
     if code:
         try:
+            client.send_code_request(config.phone)
             client.sign_in(config.phone, code)
-        except:
+        except Exception as e:
+            print(e)
             form.add_error('login_code', 'Invalid Code')
     if form.is_valid():
         config.login_code = code
         config.save()
-        redirect('monitor:summary')
+        return redirect('monitor:summary')
+    else:
+        client.send_code_request(config.phone)
     context = {
-        'login_code_form': form
+        'login_code_form': form,
+        'phone_code_hash': phone_hash
     }
-    return render(request, context, template)
+    return render(request, template, context)

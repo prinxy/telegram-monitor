@@ -6,7 +6,12 @@
 {% block maincontent %}
     {% if login_code_form %}
         <div class="col-md-4">
-            {% crispy form %}
+            <form method="post">
+                {% csrf_token %}
+                {{ login_code_form.login_code }}
+                <input type="hidden" name="phone_hash" value="{{ phone_code_hash }}">
+                <button type="submit">Login</button>
+            </form>
         </div>
     {% else %}
         <h2>Login</h2>
